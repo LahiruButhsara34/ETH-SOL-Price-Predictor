@@ -8,7 +8,8 @@ An intelligent web application designed to forecast cryptocurrency price trends 
 
 ### 1. Home / Input Interface
 Select cryptocurrency and target prediction date up to 4 years.
-![Crypto Price Predictor Form](./images/home.png)
+![Crypto Price Predictor Form](./images/home1.png)
+![Crypto Price Predictor Form](./images/home2.png)
 
 ### 2. Model Training Overlay
 Real-time feedback animation while fetching data and training the LSTM model.
