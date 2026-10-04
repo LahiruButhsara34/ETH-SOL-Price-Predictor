@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Crypto Price Predictor</title>
+</head>
+<body>
+    <!-- Loading Overlay (Waiting State) -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="spinner"></div>
+        <h2>Training LSTM Model...</h2>
+        <p>කරුණාකර රැඳී සිටින්න. Data processing සහ Prediction සිදු වෙමින් පවතී.</p>
+    </div>
+
+    <div class="wrapper">
+        <div class="title">
+            <h1>Crypto Future Price Predictor</h1>
+            <p>Predict future prices up to 4 years using Real-Time LSTM Machine Learning.</p>
+        </div>
+
+        {% if error %}
+        <div class="error-box">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <form action="/getresults" method="POST" onsubmit="return handleFormSubmit()">
+            <div class="form">
+                <!-- Coin Dropdown Selection -->
+                <div class="inputfield">
+                    <label for="coin_name">Select Cryptocurrency</label>
+                    <select class="input" id="coin_name" name="coin_name">
+                        <option value="ETH-USD">Ethereum (ETH-USD)</option>
+                        <option value="SOL-USD">Solana (SOL-USD)</option>
+                    </select>
+                </div>
+
+                <!-- Future Date Input -->
+                <div class="inputfield">
+                    <label for="target_date">Target Prediction Date (Up to 4 Years)</label>
+                    <input class="input" type="date" id="target_date" name="target_date" min="{{ today }}" max="{{ max_date }}">
+                    <div class="help-text" style="color: #f59e0b; font-weight: 500; margin-top: 5px; font-size: 13px;">
+                        ⚠️ අද සිට ඉදිරි අවුරුදු 4ක් ඇතුළත ඕනෑම දිනයක් තෝරන්න.
+                    </div>
+                </div>
+
+                <div class="inputfield">
+                    <input class="btn" type="submit" value="Train Model & Predict Chart">
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function handleFormSubmit() {
+            const targetDate = document.getElementById('target_date').value;
+            const minDate = "{{ today }}";
+            const maxDate = "{{ max_date }}";
+
+            if (!targetDate) {
+                alert("කරුණාකර වලංගු දිනයක් ඇතුළත් කරන්න.");
+                return false;
+            }
+
+            if (targetDate <= minDate || targetDate > maxDate) {
+                alert("කරුණාකර අද දින සිට ඉදිරි අවුරුදු 4ක් ඇතුළත දිනයක් තෝරන්න.");
+                return false;
+            }
+
+            // Waiting Loader එක පෙන්වීම
+            document.getElementById('loadingOverlay').style.display = 'flex';
+            return true;
+        }
+    </script>
+</body>
+</html>

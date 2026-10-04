@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Prediction & Interactive Chart</title>
+</head>
+<body>
+    <div class="result" style="max-width: 850px;">
+        <h1>{{ results.coin }} Price Prediction</h1>
+
+        <div class="card-info">
+            <p><strong>Current Price:</strong> ${{ results.latest_price }}</p>
+            <p><strong>Target Date:</strong> {{ results.target_date }}</p>
+        </div>
+
+        <div class="price-box">
+            <div class="price-label">Predicted Price on {{ results.target_date }}</div>
+            <div class="price-value">${{ results.predicted_price }}</div>
+        </div>
+
+        {% if results.change >= 0 %}
+            <div class="badge up">
+                ▲ Expected Increase: +${{ results.change }} (+{{ results.change_percent }}%)
+            </div>
+        {% else %}
+            <div class="badge down">
+                ▼ Expected Decrease: -${{ results.change | abs }} ({{ results.change_percent }}%)
+            </div>
+        {% endif %}
+
+        <!-- Interactive Chart Container -->
+        <div style="margin-top: 30px; background: #0f172a; padding: 15px; border-radius: 12px;">
+            <canvas id="ethChart"></canvas>
+        </div>
+
+        <div style="margin-top: 25px;">
+            <a href="/" class="result-btn">Predict Another Timeline / Coin</a>
+        </div>
+    </div>
+
+    <!-- Chart.js Engine Script -->
+    <script>
+        const histDates = {{ results.hist_dates | tojson | safe }};
+        const histPrices = {{ results.hist_prices | tojson | safe }};
+        const futureDates = {{ results.future_dates | tojson | safe }};
+        const futurePrices = {{ results.future_prices | tojson | safe }};
+
+        const labels = [...histDates, ...futureDates];
+        const historicalData = [...histPrices, ...Array(futureDates.length).fill(null)];
+        const futureData = [...Array(histDates.length - 1).fill(null), histPrices[histPrices.length - 1], ...futurePrices];
+
+        const ctx = document.getElementById('ethChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Historical Price (USD)',
+                        data: historicalData,
+                        borderColor: '#38bdf8',
+                        backgroundColor: 'rgba(56, 189, 248, 0.1)',
+                        fill: true,
+                        tension: 0.2
+                    },
+                    {
+                        label: 'Predicted Future Price (USD)',
+                        data: futureData,
+                        borderColor: '#a855f7',
+                        borderDash: [5, 5],
+                        backgroundColor: 'rgba(168, 85, 247, 0.1)',
+                        fill: true,
+                        tension: 0.2
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        labels: { color: '#cbd5e1' }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: { color: '#94a3b8' },
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                    },
+                    y: {
+                        ticks: { color: '#94a3b8' },
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
