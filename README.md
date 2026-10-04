@@ -84,11 +84,8 @@ git clone https://github.com/LahiruButhsara34/ETH-SOL-Price-Predictor.git
 Move into the project directory:
 
 ```bash
-cd crypto-price-predictor
+cd ETH-SOL-Price-Predictor
 ```
-
-> Replace `https://github.com/LahiruButhsara34/ETH-SOL-Price-Predictor.git` with the actual repository URL if you have already created the GitHub repository.
-
 ---
 
 ## 3. Create & Activate Virtual Environment
