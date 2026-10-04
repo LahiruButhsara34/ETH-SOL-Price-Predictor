@@ -78,7 +78,7 @@ python --version
 Clone the project from GitHub:
 
 ```bash
-git clone https://github.com/your-username/crypto-price-predictor.git
+git clone https://github.com/LahiruButhsara34/ETH-SOL-Price-Predictor.git
 ```
 
 Move into the project directory:
@@ -87,7 +87,7 @@ Move into the project directory:
 cd crypto-price-predictor
 ```
 
-> Replace `https://github.com/your-username/crypto-price-predictor.git` with the actual repository URL if you have already created the GitHub repository.
+> Replace `https://github.com/LahiruButhsara34/ETH-SOL-Price-Predictor.git` with the actual repository URL if you have already created the GitHub repository.
 
 ---
 
