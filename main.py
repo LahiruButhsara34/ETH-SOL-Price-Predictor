@@ -1,15 +1,17 @@
 from flask import Flask, render_template, request
 import yfinance as yf
 import numpy as np
+import os
 from datetime import datetime, timedelta
 from sklearn.preprocessing import MinMaxScaler
-from keras.models import Sequential
+from keras.models import Sequential, load_model
 from keras.layers import LSTM, Dense, Dropout
+from keras.callbacks import ModelCheckpoint, EarlyStopping
 
 app = Flask(__name__)
 
 def train_and_predict_future(ticker, target_date_str):
-    # 1. Automatically download historical cryptocurrency data from Yahoo Finance from 2018-01-01 to today
+    # 1. Automatically download historical cryptocurrency data
     start_date = '2018-01-01'
     end_date = datetime.now().strftime('%Y-%m-%d')
     df = yf.download(ticker, start=start_date, end=end_date)
@@ -35,10 +37,9 @@ def train_and_predict_future(ticker, target_date_str):
     X, y = np.array(X), np.array(y)
     X = np.reshape(X, (X.shape[0], X.shape[1], 1))
 
-    # 4. Build Deep LSTM Model in Memory
+    # 4. Build Deep LSTM Model
     model = Sequential()
-
-    model.add(LSTM(units=128, return_sequences=True, input_shape=(X.shape[1], 1)))  # Input window shape: (90, 1)
+    model.add(LSTM(units=128, return_sequences=True, input_shape=(X.shape[1], 1)))
     model.add(Dropout(0.2))
 
     model.add(LSTM(units=96, return_sequences=True))
@@ -54,7 +55,37 @@ def train_and_predict_future(ticker, target_date_str):
 
     model.compile(loss='mse', optimizer='adam')
 
-    model.fit(X, y, epochs=20, batch_size=32, verbose=0)
+    # Define Callbacks to get the model with the minimum validation loss
+    model_filename = 'best_crypto_model.keras'
+    checkpoint = ModelCheckpoint(
+        model_filename,
+        monitor='val_loss',
+        save_best_only=True,
+        mode='min',
+        verbose=0
+    )
+    
+    early_stop = EarlyStopping(
+        monitor='val_loss',
+        patience=10,
+        restore_best_weights=True,
+        mode='min'
+    )
+
+    # Train with Validation Split (Time-series data shuffle = False)
+    model.fit(
+        X, y,
+        epochs=30,
+        batch_size=64,
+        validation_split=0.15,
+        shuffle=False,
+        callbacks=[checkpoint, early_stop],
+        verbose=0
+    )
+
+    # Load the absolute best performing model based on val_loss
+    if os.path.exists(model_filename):
+        model = load_model(model_filename)
 
     # 5. Calculate total number of days up to the target date
     last_date = df.index[-1].to_pydatetime()
@@ -104,7 +135,6 @@ def train_and_predict_future(ticker, target_date_str):
 
 @app.route('/')
 def index():
-    # Calculate today's date and 4 years ahead date for HTML min/max constraints
     today = datetime.now().strftime('%Y-%m-%d')
     max_date = (datetime.now() + timedelta(days=4*365)).strftime('%Y-%m-%d')
     return render_template('coin_details.html', today=today, max_date=max_date)
@@ -120,7 +150,6 @@ def getresults():
             today_str = datetime.now().strftime('%Y-%m-%d')
             max_date_str = (datetime.now() + timedelta(days=4*365)).strftime('%Y-%m-%d')
 
-            # Backend Safeguard Checks
             if not target_date:
                 return render_template('eth_details.html', error="Please select a target date.", today=today_str, max_date=max_date_str)
             
