@@ -11,7 +11,7 @@
     <div id="loadingOverlay" class="loading-overlay" style="display: none;">
         <div class="spinner"></div>
         <h2>Training LSTM Model...</h2>
-        <p>කරුණාකර රැඳී සිටින්න. Data processing සහ Prediction සිදු වෙමින් පවතී.</p>
+        <p>Please wait. Processing data and generating predictions...</p>
     </div>
 
     <div class="wrapper">
@@ -42,7 +42,7 @@
                     <label for="target_date">Target Prediction Date (Up to 4 Years)</label>
                     <input class="input" type="date" id="target_date" name="target_date" min="{{ today }}" max="{{ max_date }}">
                     <div class="help-text" style="color: #f59e0b; font-weight: 500; margin-top: 5px; font-size: 13px;">
-                        ⚠️ අද සිට ඉදිරි අවුරුදු 4ක් ඇතුළත ඕනෑම දිනයක් තෝරන්න.
+                        ⚠️ Please select any date within the next 4 years from today.
                     </div>
                 </div>
 
@@ -60,16 +60,16 @@
             const maxDate = "{{ max_date }}";
 
             if (!targetDate) {
-                alert("කරුණාකර වලංගු දිනයක් ඇතුළත් කරන්න.");
+                alert("Please select a valid target date.");
                 return false;
             }
 
             if (targetDate <= minDate || targetDate > maxDate) {
-                alert("කරුණාකර අද දින සිට ඉදිරි අවුරුදු 4ක් ඇතුළත දිනයක් තෝරන්න.");
+                alert("Please select a date between today and the next 4 years.");
                 return false;
             }
 
-            // Waiting Loader එක පෙන්වීම
+            // Display Loading Overlay
             document.getElementById('loadingOverlay').style.display = 'flex';
             return true;
         }

@@ -4,6 +4,22 @@ An intelligent web application designed to forecast cryptocurrency price trends 
 
 ---
 
+## 📸 Application Screenshots
+
+### 1. Home / Input Interface
+Select cryptocurrency and target prediction date up to 4 years.
+![Crypto Price Predictor Form](./images/home.png)
+
+### 2. Model Training Overlay
+Real-time feedback animation while fetching data and training the LSTM model.
+![Training Model Loading](./images/waiting.png)
+
+### 3. Price Prediction & Interactive Chart
+Comprehensive forecast dashboard showing expected price movement, percentage change, and future chart trends.
+![Prediction Results Chart](./images/result.png)
+
+---
+
 ## 📌 Key Features
 
 - **Multi-Year Market Predictions:** Forecasts crypto prices up to 4 years ahead (1,460 days) to match market cycle patterns.
