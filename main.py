@@ -20,7 +20,7 @@ def train_and_predict_future(ticker, target_date_str):
         raise Exception("Insufficient data available for training.")
 
     # Fetch Closing Prices
-    data = df[['Close']].values
+    data = df[['Close']].values.reshape(-1,1)
     dates = [d.strftime('%Y-%m-%d') for d in df.index]
 
     # 2. Scale Data (Between 0 and 1)
@@ -55,6 +55,7 @@ def train_and_predict_future(ticker, target_date_str):
 
     model.compile(loss='mse', optimizer='adam')
 
+  
     # Define Callbacks to get the model with the minimum validation loss
     model_filename = 'best_crypto_model.keras'
     checkpoint = ModelCheckpoint(
@@ -151,10 +152,10 @@ def getresults():
             max_date_str = (datetime.now() + timedelta(days=4*365)).strftime('%Y-%m-%d')
 
             if not target_date:
-                return render_template('eth_details.html', error="Please select a target date.", today=today_str, max_date=max_date_str)
+                return render_template('coin_details.html', error="Please select a target date.", today=today_str, max_date=max_date_str)
             
             if target_date > max_date_str or target_date <= today_str:
-                return render_template('eth_details.html', error="Please select a date between today and the next 4 years.", today=today_str, max_date=max_date_str)
+                return render_template('coin_details.html', error="Please select a date between today and the next 4 years.", today=today_str, max_date=max_date_str)
 
             data_res = train_and_predict_future(ticker, target_date)
             
