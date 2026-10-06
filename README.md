@@ -65,7 +65,7 @@ The neural network utilizes a **Funnel-Structured Deep LSTM Architecture** to ba
 
 Make sure the following software is installed:
 
-- **Python 3.8 or higher**
+- **python-3.13.11**
 - **Git**
 - **VS Code** (recommended)
 - Internet connection for retrieving cryptocurrency data from Yahoo Finance
