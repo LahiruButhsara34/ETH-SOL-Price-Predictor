@@ -48,8 +48,8 @@ Comprehensive forecast dashboard showing expected price movement, percentage cha
 The neural network utilizes a **Funnel-Structured Deep LSTM Architecture** to balance model capacity and training efficiency:
 
 - **Look-back Window (`time_steps`):** 90 Days
-- **Training Epochs:** 20 Epochs
-- **Batch Size:** 32
+- **Training Epochs:** 30 Epochs
+- **Batch Size:** 64
 - **Optimizer & Loss:** Adam Optimizer, Mean Squared Error (`mse`)
 - **Layer Pipeline:**
   1. `LSTM (128 units, return_sequences=True)` + `Dropout(0.2)`
@@ -57,6 +57,8 @@ The neural network utilizes a **Funnel-Structured Deep LSTM Architecture** to ba
   3. `LSTM (64 units, return_sequences=True)` + `Dropout(0.2)`
   4. `LSTM (32 units, return_sequences=False)` + `Dropout(0.2)`
   5. `Dense (1 unit, activation='linear')`
+
+
 
 ---
 # 🚀 Getting Started
