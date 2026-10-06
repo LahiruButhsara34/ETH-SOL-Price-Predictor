@@ -17,7 +17,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # 6. Expose application port
-EXPOSE 7860
+EXPOSE 5000
 
 # 7. Start the application using Gunicorn WSGI server
-CMD ["gunicorn", "-b", "0.0.0.0:7860", "main:app"]
+CMD ["gunicorn", "-b", "0.0.0.0:5000", "main:app"]
