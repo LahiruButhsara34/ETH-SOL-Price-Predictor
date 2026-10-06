@@ -16,7 +16,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # 5. Copy the rest of the application files to the container
 COPY . .
 
-# 6. Expose Hugging Face default port
+# 6. Expose application port
 EXPOSE 7860
 
 # 7. Start the application using Gunicorn WSGI server
