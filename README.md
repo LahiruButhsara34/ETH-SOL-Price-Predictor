@@ -2,7 +2,7 @@
 
 [![GitHub Repository](https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/LahiruButhsara34/ETH-SOL-Price-Predictor)
 
-🔗 **Repository Link:** [https://github.com/LahiruButhsara34/ETH-SOL-Price-Predictor](https://github.com/LahiruButhsara34/Laptop-Price-Predictor)
+🔗 **Repository Link:** [https://github.com/LahiruButhsara34/ETH-SOL-Price-Predictor](https://github.com/LahiruButhsara34/ETH-SOL-Price-Predictor)
 
 An intelligent web application designed to forecast cryptocurrency price trends up to **4 years (1,460 days)** into the future. Powered by Python Flask, Yahoo Finance API, and a custom deep **LSTM (Long Short-Term Memory)** neural network optimized for long-term time-series predictions aligned with crypto market cycles.
 
