@@ -21,5 +21,4 @@ EXPOSE 5000
 
 # 7. Start the application 
 #CMD ["python", "main.py"]
-#CMD ["gunicorn", "-b", "0.0.0.0:5000", "main:app"]
-CMD gunicorn -b 0.0.0.0:$PORT main:app
+CMD ["gunicorn", "-b", "0.0.0.0:5000", "main:app"]
