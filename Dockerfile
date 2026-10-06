@@ -19,5 +19,5 @@ COPY . .
 # 6. Expose application port
 EXPOSE 5000
 
-# 7. Start the application using Gunicorn WSGI server
-CMD ["gunicorn", "-b", "0.0.0.0:5000", "main:app"]
+# 7. Start the application 
+CMD ["python", "main.py"]
